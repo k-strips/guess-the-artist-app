@@ -1,15 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { Suspense } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { ApolloProvider } from "@apollo/client";
+
+// local dependencies
+import { PageLoader } from "./components";
+import { client } from "../src/graphql";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <Suspense fallback={<PageLoader />}>
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
+      </Suspense>
+    </Router>
   </React.StrictMode>
 );
 
